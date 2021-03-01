@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<style>
+
+</style>
+</head>
+<body>
+
+<div id="mySidenav" class="sidenav"></div>
+<div class="right-section"  id="main">
+  <div class="header">
+    <span onclick="openNav()" class="nav-icon">&#9776;</span>
+  </div>
+  <div class="main-content">
+    <div class="top-heading">
+      <h4>Rules</h4>
+      <div>
+        <a href="#" title="rule-engine">
+          Rule Engine/
+        </a>
+         <a href="#" title="add-rule">
+          Add Rule
+        </a>
+      </div>
+    </div>
+    <div class="add-rule-details">
+      <h3>Add Rules</h3>
+      <div class="rule-details">
+        <div class="form-group">
+          <label>Rule Id</label>
+          <input type="text" name="" placeholder="example" id ="rule-id">
+        </div>
+        <div class="form-group">
+          <label>Rule Name</label>
+          <input type="text" name="" placeholder="example" id="rule-name">
+        </div>
+        <div class="form-group">
+          <label>Rule Type</label>
+          <select id="rule-type">
+            <option>FOP Rules 1</option>
+            <option>FOP Rules 2</option>
+            <option>FOP Rules 3</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Rule Group</label>
+          <select id="rule-group">
+            <option>Manage FOPs 1</option>
+            <option>Manage FOPs 2</option>
+            <option>Manage FOPs 3</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Rank</label>
+          <select id="rank">
+            <option>AIR123</option>
+            <option>AIR234</option>
+            <option>AIR345</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Applied On</label>
+          <input type="date" name="" placeholder="mm/dd/yyyy" id="rule-applied-on">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+        </div>
+        <div class="form-group">
+          <label>Expires On</label>
+          <input type="date" name="" placeholder="mm/dd/yyyy" id="rule-expires-on">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+        </div>
+      </div>
+      <div class="form-group textarea">
+        <label>Rule Description</label>
+        <textarea placeholder="Rule Description" style="width: 100%" id="rule-desc"></textarea>
+      </div>
+      <p class="text-right">
+        <button onclick="onAddClick()">
+          Add Rules
+        </button>
+      </p>
+    </div>
+    <div class="add-rule-details">
+      <table>
+        <thead>
+          <tr>
+            <th>Rule Id</th>
+            <th>Rule Name</th>
+            <th>Rule Type</th>
+            <th>Rule Group</th>
+            <th>Rank</th>
+            <th>Applied On</th>
+            <th>Expires On</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+let memuBool = false;
+function openNav() {
+  console.log("navOpened")
+  document.getElementById("mySidenav").style.width = "200px";
+  document.getElementById("mySidenav").innerHTML = `<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <ul>
+    <li>
+      <a href="#" title="dashboard">
+        <i class="fa fa-tachometer" aria-hidden="true"></i>
+        <span>Dashboard</span>
+      </a> 
+    </li>
+    <li>
+      <div class="dropdown">
+          <button class="dropbtn" onclick="myFunction()">
+            <i class="fa fa-list-alt" aria-hidden="true"></i>
+            Dropdown 
+            <i class="fa fa-angle-down"></i>
+          </button>
+          <div class="dropdown-content" id="myDropdown">
+            <ul>
+              <li>
+                <a href="#" title="Add Rule">
+                  Add New Rule
+                </a>
+              </li>
+              <li>
+                <a href="#" title="Search Rule">
+                  Search Rules
+                </a>
+              </li>
+            </ul>
+          </div>
+      </div>
+    </li>
+  </ul>`
+  document.getElementById("main").style.marginLeft = "200px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("mySidenav").innerHTML = `<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>`
+  document.getElementById("main").style.marginLeft= "0";
+}
+
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+const rules = []
+	function renderTable() {
+		const table = document.getElementById("table-body");
+		const tableElements = rules.map(rule => (
+			`<tr>
+				<th>${rule.id}</th>
+				<th>${rule.name}</th>
+				<th>${rule.type}</th>
+				<th>${rule.group}</th>
+				<th>${rule.rank}</th>
+				<th>${rule.appliedOn}</th>
+				<th>${rule.expiresOn}</th>
+			</tr>`
+		)).join('')
+		table.innerHTML = tableElements;
+	}
+	function onAddClick() {
+		const rule = {}
+		rule.id = document.getElementById('rule-id').value
+		rule.name = document.getElementById('rule-name').value
+		rule.type = document.getElementById('rule-type').value
+		rule.group = document.getElementById('rule-group').value
+		rule.rank = document.getElementById('rank').value
+		rule.appliedOn = document.getElementById('rule-applied-on').value
+		rule.expiresOn = document.getElementById('rule-expires-on').value
+		if (!rule.id || !rule.name || !rule.expiresOn || !rule.appliedOn) {
+			alert("Please add all the fields")
+			return
+		}
+		rules.push(rule)
+		document.getElementById('rule-id').value = ""
+		document.getElementById('rule-name').value = ""
+		document.getElementById('rule-type').value = "FOP Rules 1"
+		document.getElementById('rule-group').value = "Manage FOPs 1"
+		document.getElementById('rank').value = "AIR123"
+		document.getElementById('rule-applied-on').value = ""
+		document.getElementById('rule-expires-on').value = ""
+		document.getElementById('rule-desc').value = ""
+		renderTable()
+	}
+
+
+$(".dropbtn").click(function(){
+  $(this).toggleClass("arrow");
+});
+
+</script>
+   
+</body>
+</html> 
